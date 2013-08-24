@@ -8,4 +8,5 @@ A slow and long-term project. If found useful, I strongly encourage you to use i
 Dependencies:
 Python 2.7
 Requests (http://docs.python-requests.org/en/latest/)
+NLTK (http://www.nltk.org)
 
