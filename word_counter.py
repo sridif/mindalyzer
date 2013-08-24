@@ -3,21 +3,21 @@
 """
 mindalyzer.py
 
-Created by and Mattias Östmar.
+Initiated by a lazy programmer and  Mattias Östmar.
 """
 
 
 import re
+import csv
 
 def loadtweetarchive(csvfile):
 	"""Load a CSV-formatted tweet-archive file (see: https://blog.twitter.com/2012/your-twitter-archive) into the mindalyzer for analysis.""" 
 	mytweettext = []
 	fil1 = 'beige.ordlista'
 	fil2 = 'orange.ordlista'
-	fil3 = 'grön.ordlista'
+	fil3 = 'green.ordlista'
 	dictofwlsets = {fil1: makeset(fil1), fil2: makeset(fil2), fil3: makeset(fil3)}
 
-	import csv
 	counters = {}	
 	with open(csvfile, 'r') as f:
 		csvdata = csv.reader(f, delimiter=",")
@@ -26,6 +26,22 @@ def loadtweetarchive(csvfile):
 			counters = countwords(mytweettext, dictofwlsets, counters)
 	return counters
 
+def load_aggregated_tsv_file(tsvfile):
+        """Load a TSV-formatted tweetfile with from_user, to_user and tweet text"""
+        mytweettext = []
+        fil1 = 'beige.ordlista'
+        fil2 = 'orange.ordlista'
+        fil3 = 'green.ordlista'
+        dictofwlsets = {fil1: makeset(fil1), fil2: makeset(fil2), fil3: makeset(fil3)}
+
+        counters = {}
+        with open(tsvfile, 'r') as f:
+                tsvdata = csv.reader(f, delimiter="\t")
+                for row in tsvdata:
+                        mytweettext = row[2]
+                        counters = countwords(mytweettext, dictofwlsets, counters)
+        return counters
+	
 
 def makeset(filename):
     """Load list of words and phrases from a file."""
@@ -78,9 +94,9 @@ def countwords(text, wordlistsdict, counters):
 
 	for w in words:        
 		for wlistkey in wlkeys:
-			#print("checking: \"" + w + "\" " + wlistkey)
+			print("checking: \"" + w + "\" " + wlistkey)
 			if w in wordlistsdict[wlistkey]:
-				#print("dbg hit: " + w + ", in " + wlistkey)
+				print("dbg hit: " + w + ", in " + wlistkey)
 				if wlistkey in counters:
 					print("dbg hit in if: \"" + w + "\", in " + wlistkey)
 					counters[wlistkey] = counters[wlistkey] + 1
@@ -94,11 +110,11 @@ def countwords(text, wordlistsdict, counters):
 def main():
 	fil1 = 'beige.ordlista'
 	fil2 = 'orange.ordlista'
-	fil3 = 'grön.ordlista'
+	fil3 = 'green.ordlista'
 	dictofwlsets = {fil1: makeset(fil1), fil2: makeset(fil2), fil3: makeset(fil3)}
 	counters = {}
 	
-	mytweettext = """Jag vill köpa en bil. The typealyzer är bra. En andlig vägledare. Du är trångsynt. Biffarna var asgoda"""
+### mytweettext = "David Hall is a very nice guy. svenska ord: grymt snäll och kunnig."
 	results = countwords(mytweettext, dictofwlsets, counters)
 	
 	print(results)
