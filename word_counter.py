@@ -94,10 +94,13 @@ def countwords(text, wordlistsdict, counters):
 	words = phrasecombinations(splitwords(text))
 	# @todo:remember use the phrasecombiner!!! also.
 	wlkeys = wordlistsdict.keys()
+ 	
+	# add total number of words to results-dictionary
+	counters['totwords'] = len(words)
 
 	for w in words:        
 		for wlistkey in wlkeys:
-			print("checking: \"" + w + "\" " + wlistkey)
+			# print("checking: \"" + w + "\" " + wlistkey)
 			if w in wordlistsdict[wlistkey]:
 				print("dbg hit: " + w + ", in " + wlistkey)
 				if wlistkey in counters:
