@@ -1,0 +1,20 @@
+Mindalyzer
+==========
+
+open psychologcial data research tools
+
+<<<<<<< HEAD
+Has only been tested with with the following dependencies:
+Python 2.7.3
+nltk==2.0.4
+requests==1.2.3
+requests-oauthlib==0.3.3
+=======
+A slow and long-term project. If found useful, I strongly encourage you to use it wisely.
+
+Dependencies:
+Python 2.7
+Requests (http://docs.python-requests.org/en/latest/)
+NLTK (http://www.nltk.org)
+
+>>>>>>> b85baeadc55528979eb84bcb1afc7d9fd6088616

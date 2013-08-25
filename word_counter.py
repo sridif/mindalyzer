@@ -10,13 +10,16 @@ Initiated by a lazy programmer and  Mattias Östmar.
 import re
 import csv
 
-def loadtweetarchive(csvfile):
+def load_tweet_archive(csvfile):
 	"""Load a CSV-formatted tweet-archive file (see: https://blog.twitter.com/2012/your-twitter-archive) into the mindalyzer for analysis.""" 
 	mytweettext = []
 	fil1 = 'beige.ordlista'
-	fil2 = 'orange.ordlista'
-	fil3 = 'green.ordlista'
-	dictofwlsets = {fil1: makeset(fil1), fil2: makeset(fil2), fil3: makeset(fil3)}
+	fil2 = 'purple.ordlista'
+	fil3 = 'red.ordlista'
+	fil4 = 'blue.ordlista'
+	fil5 = 'orange.ordlista'
+	fil6 = 'green.ordlista'
+	dictofwlsets = {fil1: makeset(fil1), fil2: makeset(fil2), fil3: makeset(fil3), fil4: makeset(fil4), fil5: makeset(fil5), fil6: makeset(fil6)}
 
 	counters = {}	
 	with open(csvfile, 'r') as f:
@@ -109,9 +112,12 @@ def countwords(text, wordlistsdict, counters):
 
 def main():
 	fil1 = 'beige.ordlista'
-	fil2 = 'orange.ordlista'
-	fil3 = 'green.ordlista'
-	dictofwlsets = {fil1: makeset(fil1), fil2: makeset(fil2), fil3: makeset(fil3)}
+        fil2 = 'purple.ordlista'
+        fil3 = 'red.ordlista'
+        fil4 = 'blue.ordlista'
+        fil5 = 'orange.ordlista'
+        fil6 = 'green.ordlista'
+        dictofwlsets = {fil1: makeset(fil1), fil2: makeset(fil2), fil3: makeset(fil3), fil4: makeset(fil4), fil5: makeset(fil5), fil6: makeset(fil6)}
 	counters = {}
 	
 ### mytweettext = "David Hall is a very nice guy. svenska ord: grymt snäll och kunnig."
