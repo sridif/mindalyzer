@@ -1,0 +1,50 @@
+Last login: Sat Aug 24 22:02:46 on ttys001
+mosmba:mindalyzer mos$ python
+Python 2.7.5 (default, Jun 25 2013, 19:29:11) 
+[GCC 4.2.1 Compatible Apple LLVM 4.2 (clang-425.0.28)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from requests_oauthlib import OAuth1Session
+>>> twitter = OAuth1Session(client_key='$CONSUMER_KEY',client_secret='$CONSUMER_SECRET',resource_owner_key='$ACCESS_TOKEN',resource_owner_secret='$ACCESS_TOKEN_SECRET')
+>>> url = 'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=mattiasostmar&count=2'
+>>> r = twitter.get(url)
+>>> r
+<Response [401]>
+
+mattiasostmar
+{'beige.ordlista': 1245,
+ 'blue.ordlista': 614,
+ 'green.ordlista': 1490,
+ 'orange.ordlista': 577,
+ 'purple.ordlista': 941,
+ 'red.ordlista': 1004,
+ 'totwords': 169433}
+
+bjornfalkevik
+{'beige.ordlista': 2053,
+ 'blue.ordlista': 848,
+ 'green.ordlista': 730,
+ 'orange.ordlista': 461,
+ 'purple.ordlista': 1420,
+ 'red.ordlista': 1489,
+ 'totwords': 191300}
+
+# bra tokenizer i NLTK (plockar upp Anna-Karin, @mattiasostmar, can't, can´t, tredje:s, men fimpar .,!? etc)
+words = nltk.tokenize.regexp_tokenize(text, "[\w'´:-@]+")
+
+# utgångspunkt för att ladda in tsv-filerna:
+def load_aggregated_tsv_file(tsvfile):
+        """Load a TSV-formatted tweetfile with from_user, to_user and tweet text"""
+        mytweettext = []
+        fil1 = 'beige.ordlista'
+        fil2 = 'orange.ordlista'
+        fil3 = 'green.ordlista'
+        dictofwlsets = {fil1: makeset(fil1), fil2: makeset(fil2), fil3: makeset(fil3)}
+
+        counters = {}
+        with open(tsvfile, 'r') as f:
+                tsvdata = csv.reader(f, delimiter="\t")
+                for row in tsvdata:
+                        mytweettext = row[2]
+                        counters = countwords(mytweettext, dictofwlsets, counters)
+        return counters
+	

@@ -6,14 +6,13 @@ mindalyzer.py
 Initiated by a lazy programmer and  Mattias Östmar.
 """
 
+
 import re
 import csv
 
-counters = {}
-counters['totwords'] = 0
-
 def load_tweet_archive(csvfile):
 	"""Load a CSV-formatted tweet-archive file (see: https://blog.twitter.com/2012/your-twitter-archive) into the mindalyzer for analysis.""" 
+	mytweettext = []
 	fil1 = 'beige.ordlista'
 	fil2 = 'purple.ordlista'
 	fil3 = 'red.ordlista'
@@ -21,9 +20,9 @@ def load_tweet_archive(csvfile):
 	fil5 = 'orange.ordlista'
 	fil6 = 'green.ordlista'
 	dictofwlsets = {fil1: makeset(fil1), fil2: makeset(fil2), fil3: makeset(fil3), fil4: makeset(fil4), fil5: makeset(fil5), fil6: makeset(fil6)}
-	
-	mytweettext = []
-	
+
+	counters = {}
+	counters['totwords'] = 0	
 	with open(csvfile, 'r') as f:
 		csvdata = csv.reader(f, delimiter=",")
 		for row in csvdata:
@@ -34,6 +33,23 @@ def load_tweet_archive(csvfile):
 			for word in mytweettext.split():
 				counters['totwords'] += 1
 	return counters
+
+def load_aggregated_tsv_file(tsvfile):
+        """Load a TSV-formatted tweetfile with from_user, to_user and tweet text"""
+        mytweettext = []
+        fil1 = 'beige.ordlista'
+        fil2 = 'orange.ordlista'
+        fil3 = 'green.ordlista'
+        dictofwlsets = {fil1: makeset(fil1), fil2: makeset(fil2), fil3: makeset(fil3)}
+
+        counters = {}
+        with open(tsvfile, 'r') as f:
+                tsvdata = csv.reader(f, delimiter="\t")
+                for row in tsvdata:
+                        mytweettext = row[2]
+                        counters = countwords(mytweettext, dictofwlsets, counters)
+        return counters
+	
 
 def makeset(filename):
     """Load list of words and phrases from a file."""
@@ -108,7 +124,9 @@ def main():
 	fil5 = 'orange.ordlista'
 	fil6 = 'green.ordlista'
 	dictofwlsets = {fil1: makeset(fil1), fil2: makeset(fil2), fil3: makeset(fil3), fil4: makeset(fil4), fil5: makeset(fil5), fil6: makeset(fil6)}
-	
+	counters = {}
+	counters['totwords'] =0 	
+
 	testtext = "David Hall is a very nice guy. svenska ord: grymt snäll och kunnig."
 	testtextwords = testtext.split()
 	
