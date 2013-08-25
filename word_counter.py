@@ -21,12 +21,17 @@ def load_tweet_archive(csvfile):
 	fil6 = 'green.ordlista'
 	dictofwlsets = {fil1: makeset(fil1), fil2: makeset(fil2), fil3: makeset(fil3), fil4: makeset(fil4), fil5: makeset(fil5), fil6: makeset(fil6)}
 
-	counters = {}	
+	counters = {}
+	counters['totwords'] = 0	
 	with open(csvfile, 'r') as f:
 		csvdata = csv.reader(f, delimiter=",")
 		for row in csvdata:
 			mytweettext = row[7]
 			counters = countwords(mytweettext, dictofwlsets, counters)
+			
+			#count up totwords
+			for word in mytweettext.split():
+				counters['totwords'] += 1
 	return counters
 
 def load_aggregated_tsv_file(tsvfile):
@@ -94,11 +99,9 @@ def countwords(text, wordlistsdict, counters):
 	words = phrasecombinations(splitwords(text))
 	# @todo:remember use the phrasecombiner!!! also.
 	wlkeys = wordlistsdict.keys()
- 	
-	# add total number of words to results-dictionary
-	counters['totwords'] = len(words)
 
-	for w in words:        
+	for w in words:
+
 		for wlistkey in wlkeys:
 			# print("checking: \"" + w + "\" " + wlistkey)
 			if w in wordlistsdict[wlistkey]:
@@ -122,9 +125,14 @@ def main():
         fil6 = 'green.ordlista'
         dictofwlsets = {fil1: makeset(fil1), fil2: makeset(fil2), fil3: makeset(fil3), fil4: makeset(fil4), fil5: makeset(fil5), fil6: makeset(fil6)}
 	counters = {}
+	counters['totwords'] =0 	
+
+	testtext = "David Hall is a very nice guy. svenska ord: grymt snäll och kunnig."
+	testtextwords = testtext.split()
 	
-### mytweettext = "David Hall is a very nice guy. svenska ord: grymt snäll och kunnig."
-	results = countwords(mytweettext, dictofwlsets, counters)
+	results = countwords(testtext, dictofwlsets, counters)
+	for word in testtextwords:
+		counters['totwords'] += 1
 	
 	print(results)
 	
